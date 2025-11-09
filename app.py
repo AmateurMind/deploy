@@ -7,9 +7,7 @@ st.set_page_config(page_title="PIC Programs", layout="wide")
 # Hide the main area watermark and menu
 st.markdown("""
     <style>
-        #MainMenu {visibility: hidden;}
-        footer {visibility: hidden;}
-        header {visibility: hidden;}
+        
     </style>
 """, unsafe_allow_html=True)
 
