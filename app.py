@@ -13,6 +13,7 @@ st.markdown("""
 
 PIC_PROGRAMS = {
     "4": r"""
+//4
 #include <p18f4520.h>
 #include <delays.h>
 
@@ -79,6 +80,7 @@ void main(void)
     
 
     "6": r"""
+//6
 #include <p18f4520.h>
 #include <delays.h>
 
@@ -157,6 +159,7 @@ void main(void)
 """,
 
     "7_Serial": r"""
+//7
 #include <p18f4520.h>
 #include <stdio.h>
 #include <delays.h>
@@ -204,6 +207,7 @@ void main(void)
 """,
 
     "8_PWM": r"""
+//8
 #include <p18f4520.h>
 #include <delays.h>
 
