@@ -14,6 +14,9 @@ st.markdown("""
 PIC_PROGRAMS = {
     "4": r"""
 //4
+
+
+
 #include <p18f4520.h>
 #include <delays.h>
 
@@ -81,6 +84,8 @@ void main(void)
 
     "6": r"""
 //6
+
+
 #include <p18f4520.h>
 #include <delays.h>
 
@@ -160,6 +165,8 @@ void main(void)
 
     "7_Serial": r"""
 //7
+
+
 #include <p18f4520.h>
 #include <stdio.h>
 #include <delays.h>
@@ -208,6 +215,8 @@ void main(void)
 
     "8_PWM": r"""
 //8
+
+
 #include <p18f4520.h>
 #include <delays.h>
 
@@ -269,10 +278,20 @@ pre_id = f"code_{abs(hash(sel))}"
 esc = html.escape(code)
 components.html(f"""
 <div style='background:#f1f1f1;padding:10px;border-radius:6px;position:relative;'>
-    <button style='position:absolute;top:8px;right:8px;padding:6px 10px;border-radius:4px;border:none;background:#007bff;color:#fff;cursor:pointer;z-index:2;font-weight:600;' onclick="navigator.clipboard.writeText(document.getElementById('{pre_id}').innerText)">Copy</button>
-    <pre id='{pre_id}' style='white-space:pre-wrap;font-family:monospace;margin-top:36px;'>{esc}</pre>
+    <button style='position:absolute;top:8px;left:8px;padding:6px 10px;border-radius:4px;border:none;background:#007bff;color:#fff;cursor:pointer;z-index:2;font-weight:600;display:inline-flex;align-items:center;gap:4px;' 
+        onclick="(() => {{
+            const btn = event.target;
+            const text = document.getElementById('{pre_id}').innerText;
+            navigator.clipboard.writeText(text)
+                .then(() => {{
+                    btn.innerHTML = '✓ Copied';
+                    setTimeout(() => btn.innerHTML = 'Copy', 1000);
+                }})
+                .catch(err => alert('Failed to copy: ' + err));
+        }})()">Copy</button>
+    <pre id='{pre_id}' style='white-space:pre-wrap;font-family:monospace;margin-top:36px;max-height:500px;overflow-y:auto;'>{esc}</pre>
 </div>
-""",height=40)
+""",height=100)
 
 # Keep the download button but hide code display
 if sel:
