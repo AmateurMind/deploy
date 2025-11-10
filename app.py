@@ -12,6 +12,131 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 PIC_PROGRAMS = {
+    "0": r"""
+    //0
+    //ADD
+ORG 0000H
+ 
+ MOV A, #25H      ; First number
+ MOV B, #14H      ; Second number
+ ADD A, B         ; A = A + B
+ MOV R1, A        ; Store result
+ END
+
+//SUB
+ORG 0000H
+ 
+ MOV A, #25H      ; First number
+ MOV B, #14H      ; Second number
+ CLR C
+ SUBB A, B        ; A = A - B
+ MOV R2, A        ; Store result
+ 
+ END
+ 
+//MUL
+ORG 0000H
+MOV A,#30H
+MOV B,#2H
+MUL AB
+END 
+ 
+//DIV
+ORG 0000H
+MOV A,#60H
+MOV B,#20H
+DIV AB
+END
+
+//16 BIT ADD
+ORG 0000H
+
+; LSB bytes
+MOV A, #01H
+MOV R1, #05H
+ADD A, R1
+MOV 30H, A           ; Store LSB result
+
+; MSB bytes
+MOV A, #30H
+MOV R2, #12H
+ADDC A, R2
+MOV 31H, A           ; Store MSB result
+
+END
+
+
+//16 BIT SUB
+ORG 0000H
+
+CLR C
+
+; LSB bytes
+MOV A, #01H
+MOV R1, #05H
+SUBB A, R1
+MOV 32H, A           ; Store LSB result
+
+; MSB bytes
+MOV A, #30H
+MOV R2, #12H
+SUBB A, R2
+MOV 33H, A           ; Store MSB result
+
+END
+
+//ADD BCD
+ORG 0000H
+
+MOV A, #45H      ; BCD number 1
+MOV B, #38H      ; BCD number 2
+ADD A, B
+DA A             ; Decimal adjust
+MOV R4, A        ; Store correct BCD result
+
+END
+
+//PACKED BCD TO UNPACKED
+ORG 0000H
+
+MOV A, #58H         ; Packed BCD
+
+; Lower nibble
+ANL A, #0FH
+MOV R1, A
+
+; Upper nibble
+MOV A, #58H
+ANL A, #0F0H
+SWAP A
+MOV R2, A
+
+END
+
+//count number of 0's and 1's
+ORG 0000H
+
+MOV A, #97H        ; Example 8-bit number
+MOV R7, #08H       ; Loop counter for 8 bits
+MOV R2, #00H       ; Zero counter
+MOV R3, #00H       ; One counter
+
+BACK:
+    JB ACC.0, ONE  ; If ACC.0 = 1, jump to ONE
+    INC R2         ; Otherwise zero++ 
+    SJMP NEXT
+
+ONE:
+    INC R3         ; One++
+
+NEXT:
+    RR A           ; Rotate right (next bit moves into ACC.0)
+    DJNZ R7, BACK  ; Repeat for all 8 bits
+
+SJMP $
+END
+
+""",
     "4": r"""
 //4
 
