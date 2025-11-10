@@ -137,6 +137,73 @@ SJMP $
 END
 
 """,
+    "1": r"""
+//1
+//move internal ram to gen purpose ram MICRO
+ORG 0000H
+ 
+ MOV 35H, #'M'
+ MOV 36H, #'I'
+ MOV 37H, #'C'
+ MOV 38H, #'R'
+ MOV 39H, #'O'
+ 
+ MOV R0, #35H     ; Source starting address (35H)
+ MOV R1, #60H     ; Destination starting address (60H)
+ MOV R2, #05H     ; Number of bytes to transfer (5 characters)
+ 
+ L:  MOV A, @R0    ; Move data from source (address in R0) to Accumulator
+     MOV @R1, A    ; Move data from Accumulator to destination (address in R1)
+     INC R0        ; Increment source pointer
+     INC R1        ; Increment destination pointer
+     DJNZ R2, L    ; Decrement R2 and repeat until all bytes are moved
+ 
+ END
+
+//move from external to internal in external ram give 1,2,3,4,5 next to 20 then check internal ram 
+        ORG 0000H
+ 
+         MOV DPTR, #0020H   ; DPTR -> external memory source address 0020H
+         MOV R0,   #45H     ; R0 -> internal RAM destination starting at 45H
+         MOV R2,   #06H     ; R2 -> byte counter (6 bytes to copy)
+ 
+ BACK:   MOVX A, @DPTR      ; Read a byte from external memory [DPTR] -> A
+         MOV  @R0, A        ; Write A into internal RAM at address in R0
+         INC  DPTR          ; Next byte in external memory
+         INC  R0            ; Next location in internal RAM
+         DJNZ R2, BACK      ; Decrement R2; if not zero jump back to BACK
+ 
+         END
+ 
+//store str MODERN on rom 200h internal ram reverse it
+ORG 0000H
+
+MOV DPTR, #0200H   ; ROM location of the word "MODERN"
+MOV R0,   #40H     ; Start address in internal RAM
+MOV R1,   #06H     ; Number of characters (6)
+CLR A
+
+L1: CLR A
+    MOVC A, @A+DPTR   ; Read a character from ROM
+    MOV @R0, A        ; Store it in RAM
+    PUSH ACC          ; Push it to stack (for reversal)
+    INC DPTR          ; Next ROM address
+    INC R0            ; Next RAM address
+    DJNZ R1, L1       ; Loop till all bytes copied
+
+MOV R0, #50H          ; Destination for reversed string
+MOV R1, #06H          ; Number of characters to pop
+
+L2: POP ACC            ; Pop last character from stack
+    MOV @R0, A         ; Store reversed order in RAM
+    INC R0
+    DJNZ R1, L2        ; Repeat for all 6 chars
+
+ORG 0200H
+DB 'MODERN'            ; Data stored in code memory
+
+END
+""",
     "4": r"""
 //4
 
