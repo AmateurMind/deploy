@@ -483,7 +483,7 @@ components.html(f"""
         }})()">Copy</button>
     <pre id='{pre_id}' style='white-space:pre-wrap;font-family:monospace;margin-top:36px;max-height:500px;overflow-y:auto;'>{esc}</pre>
 </div>
-""",height=100)
+""",height=700)
 
 # Keep the download button but hide code display
 if sel:
