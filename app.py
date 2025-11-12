@@ -666,7 +666,7 @@ void main(void)
     """
 }
 
-st.sidebar.title("-")
+st.sidebar.title("Shhhhhhhh!!")
 sel = st.sidebar.radio("Select", list(PIC_PROGRAMS.keys()))
 
 # If INTERFACING DIGS is selected, show images in main area
