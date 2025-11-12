@@ -1,6 +1,7 @@
 import streamlit as st
 import html
 import streamlit.components.v1 as components
+import base64
 
 st.set_page_config(page_title="PIC Programs", layout="wide")
 
@@ -11,7 +12,11 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
+# Image paths for interfacing diagrams
+image_paths = ["2exp.jpg", "3exp.jpg", "PIC_page-0003.jpg", "PIC_page-0004.jpg", "PIC_page-0005.jpg", "PIC_page-0006.jpg", "PIC_page-0007.jpg", "PIC_page-0008.jpg"]
+
 PIC_PROGRAMS = {
+    
     "0": r"""
     //0
     //ADD
@@ -656,28 +661,43 @@ void main(void)
     }
 }
 
-"""
+""",
+"INTERFACING DIGS": r"""
+    """
 }
 
 st.sidebar.title("-")
 sel = st.sidebar.radio("Select", list(PIC_PROGRAMS.keys()))
-code = PIC_PROGRAMS[sel]
 
-# Create a JS-safe version of the raw code to copy via clipboard (escape backticks and backslashes)
-js_safe = code.replace('\\','\\\\').replace('`','\\`')
+# If INTERFACING DIGS is selected, show images in main area
+if sel == "INTERFACING DIGS":
+    st.title("All Interfacing Diagrams")
+    
+    # Display images in order
+    for img_path in image_paths:
+        try:
+            st.image(img_path, use_column_width=True)
+        except FileNotFoundError:
+            st.error(f"Image file '{img_path}' not found. Please add it to the project folder.")
+else:
+    # Show code for other selections
+    code = PIC_PROGRAMS[sel]
 
-# Persistent copy button in the sidebar — always available and will copy the raw code even if the
-# main code panel is not visible.
-with st.sidebar:
+    # Create a JS-safe version of the raw code to copy via clipboard (escape backticks and backslashes)
+    js_safe = code.replace('\\','\\\\').replace('`','\\`')
+
+    # Persistent copy button in the sidebar — always available and will copy the raw code even if the
+    # main code panel is not visible.
+    with st.sidebar:
+        components.html(f"""
+        <div style='padding:6px;display:flex;justify-content:flex-end;'>
+            <button style='padding:6px 10px;border-radius:4px;border:none;background:#28a745;color:#fff;cursor:pointer;font-weight:600;' onclick="navigator.clipboard.writeText(`{js_safe}`)">Copy</button>
+        </div>
+        """, height=60)
+
+    pre_id = f"code_{abs(hash(sel))}"
+    esc = html.escape(code)
     components.html(f"""
-    <div style='padding:6px;display:flex;justify-content:flex-end;'>
-        <button style='padding:6px 10px;border-radius:4px;border:none;background:#28a745;color:#fff;cursor:pointer;font-weight:600;' onclick="navigator.clipboard.writeText(`{js_safe}`)">Copy</button>
-    </div>
-    """, height=60)
-
-pre_id = f"code_{abs(hash(sel))}"
-esc = html.escape(code)
-components.html(f"""
 <div style='background:#f1f1f1;padding:10px;border-radius:6px;position:relative;'>
     <button style='position:absolute;top:8px;left:8px;padding:6px 10px;border-radius:4px;border:none;background:#007bff;color:#fff;cursor:pointer;z-index:2;font-weight:600;display:inline-flex;align-items:center;gap:4px;' 
         onclick="(() => {{
@@ -694,6 +714,6 @@ components.html(f"""
 </div>
 """,height=700)
 
-# Keep the download button but hide code display
-if sel:
-    st.download_button("Download", code, file_name=sel+".c")
+    # Keep the download button but hide code display
+    if sel:
+        st.download_button("Download", code, file_name=sel+".c")
