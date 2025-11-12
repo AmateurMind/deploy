@@ -204,6 +204,215 @@ DB 'MODERN'            ; Data stored in code memory
 
 END
 """,
+"2": r"""
+//2
+    //1.WAP to flash LEDS on P2
+#include <REG51.H>
+
+void delay(unsigned int ms) {
+    unsigned int i, j;
+    for(i = 0; i < ms; i++) {
+        for(j = 0; j < 1257; j++);
+    }
+}
+
+void main(void) {
+    while(1) {
+        P2 = 0x00;      // Turn OFF all LEDs connected to Port 2
+        delay(500);     // Wait for 500 ms
+        P2 = 0xFF;      // Turn ON all LEDs connected to Port 2
+        delay(500);     // Wait for 500 ms
+    }
+}
+
+
+//2.WAP to generate rotational pattern on P1
+#include <REG51.H>
+
+void delay(unsigned int ms) {
+    unsigned int i, j;
+    for(i = 0; i < ms; i++) {
+        for(j = 0; j < 1257; j++);
+    }
+}
+
+void main(void) {
+    unsigned char x = 0x01;  // Start with the first LED ON
+    while(1) {
+        P1 = x;              // Output value to Port 1
+        delay(500);          // Wait 500 ms
+        x = x << 1;          // Shift left (next LED ON)
+        if(x == 0x00) {      // When all LEDs have shifted off
+            x = 0x01;        // Reset back to first LED
+        }
+    }
+}
+
+
+
+//3.WAp to generate zifzag pattern on p2
+#include <REG51.H>
+
+void delay(unsigned int ms) {
+    unsigned int i, j;
+    for(i = 0; i < ms; i++) {
+        for(j = 0; j < 1257; j++);
+    }
+}
+
+void main(void) {
+    while(1) {
+        P2 = 0xAA;     // 10101010 pattern – alternate LEDs ON/OFF
+        delay(500);    // Wait for 500 ms
+        P2 = 0x55;     // 01010101 pattern – opposite LEDs ON/OFF
+        delay(500);    // Wait for 500 ms
+    }
+}
+
+
+
+//4.WAP to count BCD numbers
+#include <REG51.H>
+
+void delay(unsigned int ms) {
+    unsigned int i, j;
+    for(i = 0; i < ms; i++) {
+        for(j = 0; j < 1257; j++);
+    }
+}
+
+void main(void) {
+    unsigned char bcd;
+    while(1) {
+        for(bcd = 0; bcd < 9; bcd++) {
+            P2 = bcd;        // Output BCD value to Port 2
+            delay(1000);     // 1-second delay
+        }
+    }
+}
+
+
+
+//5.WAP to count HEX(0 TO f)
+#include <REG51.H>
+
+unsigned char str[16] = {
+    0x3F, 0x06, 0x5B, 0x4F, 0x66, 0x6D, 0x7D, 0x07,
+    0x7F, 0x6F, 0x3F, 0x7C, 0x39, 0x5E, 0x79, 0x71
+};
+
+void delay(unsigned int ms) {
+    unsigned int i, j;
+    for(i = 0; i < ms; i++) {
+        for(j = 0; j < 1257; j++);
+    }
+}
+
+void main(void) {
+    unsigned char i;
+    while(1) {
+        for(i = 0; i < 16; i++) {
+            P2 = str[i];     // Output pattern to Port 2
+            delay(500);      // Wait for 500 ms
+        }
+    }
+}
+
+
+
+//6.COUNT NUMBER 1 TO 12
+#include <REG51.H>
+
+void delay(unsigned int ms) {
+    unsigned int i, j;
+    for(i = 0; i < ms; i++) {
+        for(j = 0; j < 1257; j++);
+    }
+}
+
+void main(void) {
+    unsigned char count = 0;
+    while(1) {
+        P2 = count;       // Send count value to Port 2
+        delay(500);       // 500 ms delay
+        count++;          // Increment count
+        if(count >= 10)   // If count exceeds 9
+            count = 0;    // Reset back to 0
+    }
+}
+
+
+
+//7.DISPLAY MICRO
+#include <REG51.H>
+
+unsigned char str[5] = {'M', 'I', 'C', 'R', 'O'};
+
+void delay(unsigned int ms) {
+    unsigned int i, j;
+    for(i = 0; i < ms; i++) {
+        for(j = 0; j < 1257; j++);
+    }
+}
+
+void main(void) {
+    unsigned char i;
+    while(1) {
+        for(i = 0; i < 5; i++) {
+            P2 = str[i];     // Send each character to Port 2
+            delay(500);      // Wait for 500 ms
+        }
+    }
+}
+
+
+""",
+"3": r"""
+//3
+//1.CLOCKWISE STEPPER
+#include <REG51.H>
+
+unsigned char step_sequence[4] = {0x01, 0x02, 0x04, 0x08};
+
+void delay(unsigned int ms) {
+    unsigned int i, j;
+    for(i = 0; i < ms; i++) {
+        for(j = 0; j < 1257; j++);
+    }
+}
+
+void main(void) {
+    unsigned int i;
+    while(1) {
+        for(i = 0; i < 4; i++) {
+            P1 = step_sequence[i];  // Send step pattern to Port 1
+            delay(5000);            // Delay between steps
+        }
+    }
+}
+
+//2.ANTICLOCKWISE
+#include <REG51.H>
+
+unsigned char step_sequence[4] = {0x08, 0x04, 0x02, 0x01};
+
+void delay(unsigned int ms) {
+    unsigned int i, j;
+    for(i = 0; i < ms; i++) {
+        for(j = 0; j < 1257; j++);
+    }
+}
+
+void main(void) {
+    unsigned int i;
+    while(1) {
+        for(i = 0; i < 4; i++) {
+            P1 = step_sequence[i];  // Send step pattern to Port 1
+            delay(5000);            // Delay between steps
+        }
+    }
+}
+""",
     "4": r"""
 //4
 
