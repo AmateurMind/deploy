@@ -283,7 +283,31 @@ title('Autocorrelation');
 xlabel('Lag');
 ylabel('Correlation Value');
 
-"""
+""",
+    "5&6": r"""
+    M-ary QAM 
+
+M = input('number of symbols = ');
+SNR = input('SNR of QAM system in dB = ');
+
+x1 = randi([0 M-1], 1000, 1);
+y2 = qammod (x1, M);
+y2n = awgn (y2, SNR, 'measured');
+scatterplot (y2n);
+y2r = qamdemod (x1, M);
+[num_error, er, rate] = symerr(x1, y2r);
+
+M-ary PSK
+
+M = input('number of symbols = ');
+SNR = input('SNR of QAM system in dB = ');
+
+x1 = randi([0 M-1], 1000, 1);
+y2 = pskmod (x1, M, pi/M);
+y2n = awgn (y2, SNR, 'measured');
+scatterplot (y2n);
+y2r = pskdemod (x1, M, pi/M);
+[num_error, er, rate] = symerr(x1, y2r);""",
 }
 
 st.sidebar.title("Shhhhhhhh!!")
