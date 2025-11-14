@@ -247,41 +247,48 @@ ylr = pskdemod(y1n,M);
 
 """,
 
-    "Rabdom Process": r"""
+    "7.Random Process": r"""
 Simulation  study of random process . find various  statistical  parameters of the random  process .
 clc;
 clear;
 close all;
-N = 1000;              % Number of samples
-x = randn(1, N);       % Generate random signal (Gaussian noise)
 
-m = mean(x);           % Mean
-med = median(x);       % Median
-r = xcorr(x, 'unbiased'); % Autocorrelation
-v = var(x);            % Variance
-rg = range(x);         % Range
-s = std(x);            % Standard deviation
+% 1. Generate a random process
+N = 1000;               % Number of samples
+x = randn(1, N);        % Random process (Gaussian)
 
-% Display values
-disp(['Mean = ', num2str(m)]);
-disp(['Median = ', num2str(med)]);
-disp(['Variance = ', num2str(v)]);
-disp(['Range = ', num2str(rg)]);
-disp(['Standard Deviation = ', num2str(s)]);
+% 2. Calculate statistical parameters
+mean_x      = mean(x);
+median_x    = median(x);
+variance_x  = var(x);
+std_x       = std(x);
+range_x     = max(x) - min(x);
 
-% Plot random process
+% Autocorrelation
+[R, lags] = xcorr(x, 'biased');
+
+% Display results
+fprintf('Mean = %f\n', mean_x);
+fprintf('Median = %f\n', median_x);
+fprintf('Variance = %f\n', variance_x);
+fprintf('Std Dev = %f\n', std_x);
+fprintf('Range = %f\n', range_x);
+
+% 3. Plot random variable
 figure;
 plot(x);
 title('Random Process');
-xlabel('Sample Index');
+xlabel('Sample Number');
 ylabel('Amplitude');
+grid on;
 
 % Plot autocorrelation
 figure;
-plot(r);
-title('Autocorrelation');
+plot(lags, R);
+title('Autocorrelation of Random Process');
 xlabel('Lag');
-ylabel('Correlation Value');
+ylabel('R(\tau)');
+grid on;
 
 """,
     "5&6": r"""
