@@ -92,7 +92,7 @@ disp('Decoded output is:');
 disp(decode);
 
 """,
-"LBC": r"""
+"9.LBC": r"""
 Write a code for a systematic (7, 4) LBC, the parity matrix is given by
 [ 110; 011;111;101]
 i) Construct generator matrix
