@@ -1,5 +1,4 @@
-# PIC Programs Viewer
-
+# PIC Programs Viewer(for practicals)
 A simple Streamlit app to view and copy PIC microcontroller program examples.
 
 ## Features
