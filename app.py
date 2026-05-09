@@ -266,74 +266,361 @@ SELECT * FROM Players;
 
 """,
 
-    "7.Random Process": r"""
-Simulation  study of random process . find various  statistical  parameters of the random  process .
-clc;
-clear;
-close all;
+    "5Palindrome": r"""
+File → New Project
+→ Java with Ant
+→ Java Application
+→ Project Name: Exp5_RMI
+→ Finish
 
-% 1. Generate a random process
-N = 1000;               % Number of samples
-x = randn(1, N);        % Random process (Gaussian)
+Right Click Project Name
+→ New
+→ Java Interface
+→ Name: PalindromeChecker
+→ Finish
 
-% 2. Calculate statistical parameters
-mean_x      = mean(x);
-median_x    = median(x);
-variance_x  = var(x);
-std_x       = std(x);
-range_x     = max(x) - min(x);
+import java.rmi.Remote;
+import java.rmi.RemoteException;
+public interface PalindromeChecker extends Remote {
+public boolean checkPalindrome(String s) throws RemoteException;
+}
 
-% Autocorrelation
-[R, lags] = xcorr(x, 'biased');
+Right Click Project Name
+→ New
+→ Java Class
+→ Name: PalindromeServer
+→ Finish
 
-% Display results
-fprintf('Mean = %f\n', mean_x);
-fprintf('Median = %f\n', median_x);
-fprintf('Variance = %f\n', variance_x);
-fprintf('Std Dev = %f\n', std_x);
-fprintf('Range = %f\n', range_x);
+import java.rmi.registry.Registry;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
+public class PalindromeServer extends UnicastRemoteObject implements PalindromeChecker {
+public PalindromeServer() throws RemoteException{
+super();
+}
+@Override
+public boolean checkPalindrome(String s) throws RemoteException {
 
-% 3. Plot random variable
-figure;
-plot(x);
-title('Random Process');
-xlabel('Sample Number');
-ylabel('Amplitude');
-grid on;
+// remove all non-alphanumeric characters and convert to lowercase
+String cleanString = s.replaceAll("[^a-zA-Z0-9]", "").toLowerCase();
+// check if the string is equal to its reverse
+String reversedString = new StringBuilder(cleanString).reverse().toString();
+return cleanString.equals(reversedString);
+}
+public static void main(String[] args) {
+try {
+// create and export the server object
+// bind the object to an RMI registry
+Registry registry = LocateRegistry.createRegistry(9999);
+registry.rebind("PalindromeChecker", new PalindromeServer());
+System.out.println("PalindromeChecker server ready.");
+}
+catch (RemoteException e) {
+System.out.println("exception"+e);
+}
+}
+}
 
-% Plot autocorrelation
-figure;
-plot(lags, R);
-title('Autocorrelation of Random Process');
-xlabel('Lag');
-ylabel('R(\tau)');
-grid on;
+
+Right Click Project Name
+→ New
+→ Java Class
+→ Name: PalindromeClient
+→ Finish
+
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
+
+public class PalindromeClient {
+
+    public static void main(String[] args) throws RemoteException {
+        PalindromeClient c = new PalindromeClient();
+        c.connectRemote();
+    }
+
+    public void connectRemote() throws RemoteException {
+        try {
+            // Connect to the RMI registry running on localhost at port 9999
+            Registry registry = LocateRegistry.getRegistry("localhost", 9999);
+
+            // Look up the remote object by name
+            PalindromeChecker checker =
+                    (PalindromeChecker) registry.lookup("PalindromeChecker");
+
+            // Test strings
+            String[] strings = {
+                "racecar",
+                "hello",
+                "A man a plan a canal Panama",
+                "12321"
+            };
+
+            // Call remote method and print result
+            for (String s : strings) {
+                System.out.println(
+                    s + " is " +
+                    (checker.checkPalindrome(s) ? "" : "not ") +
+                    "a palindrome."
+                );
+            }
+
+        } catch (NotBoundException | RemoteException e) {
+            System.err.println(
+                "PalindromeChecker client exception: " + e.toString()
+            );
+        }
+    }
+}
 
 """,
-    "5&6": r"""
-    M-ary QAM 
+    "6IP": r"""
+    java with ant
+Right Click Project
+→ New
+→ Java Class
+→ Name: InetADRESS
+→ Finish
 
-M = input('number of symbols = ');
-SNR = input('SNR of QAM system in dB = ');
+package InetADRESS;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+import java.util.Scanner;
 
-x1 = randi([0 M-1], 1000, 1);
-y2 = qammod (x1, M);
-y2n = awgn (y2, SNR, 'measured');
-scatterplot (y2n);
-y2r = qamdemod (x1, M);
-[num_error, er, rate] = symerr(x1, y2r);
+public class InetADRESS {
 
-M-ary PSK
+public static void main(String[] args) {
+Scanner sc=new Scanner(System.in);
+System.out.println("enter");
+String host=sc.next();
+try
+{
+InetAddress ip=InetAddress.getByName(host);
+System.out.println("IP "+ip.getHostAddress());
+}
+catch(UnknownHostException e)
+{
+System.out.println(e);
 
-M = input('number of symbols = ');
-SNR = input('SNR of QAM system in dB = ');
+}
+}
+}""",
+    "7valid.java":r"""
+java with ant then java app
+right click on source package then servlet:
 
-x1 = randi([0 M-1], 1000, 1);
-y2 = pskmod (x1, M, pi/M);
-y2n = awgn (y2, SNR, 'measured');
-scatterplot (y2n);
-y2r = pskdemod (x1, M, pi/M);
-[num_error, er, rate] = symerr(x1, y2r);""",
+import java.io.IOException;
+import java.io.PrintWriter;
+
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+@WebServlet("/valid")
+public class valid extends HttpServlet {
+
+    @Override
+    protected void doPost(HttpServletRequest request,
+                          HttpServletResponse response)
+            throws ServletException, IOException {
+
+        response.setContentType("text/html");
+
+        PrintWriter out = response.getWriter();
+
+        String uname = request.getParameter("uname");
+        String pass = request.getParameter("upass");
+
+        // Correct credentials
+        if (uname.equals("suu") && pass.equals("pass")) {
+
+            RequestDispatcher rd =
+                    request.getRequestDispatcher("/welcome.html");
+
+            rd.forward(request, response);
+
+        } else {
+
+            out.println("<h3>Invalid Username or Password</h3>");
+
+            RequestDispatcher rd =
+                    request.getRequestDispatcher("/index.html");
+
+            rd.include(request, response);
+        }
+    }
+}
+
+    """,
+    "7index.html":r"""<!DOCTYPE html>
+<html>
+<head>
+    <title>Login Form</title>
+</head>
+
+<body>
+
+<form action="valid" method="post">
+
+    Username:
+    <input type="text" name="uname">
+
+    <br><br>
+
+    Password:
+    <input type="password" name="upass">
+
+    <br><br>
+
+    <input type="submit" value="Submit">
+
+</form>
+
+</body>
+</html>
+    
+    """,
+    "7welcome.html":r"""
+    <!DOCTYPE html>
+<html>
+<head>
+    <title>Welcome</title>
+    <meta charset="UTF-8">
+</head>
+<body>
+
+<h1>Welcome to the page</h1>
+Login Confirmed!!
+
+</body>
+</html>
+    
+    """,
+    "8RMI-ADDITION":r"""
+    java with ant
+    java app
+    then 
+    project name interface: Calculator
+
+import java.rmi.Remote;
+import java.rmi.RemoteException;
+public interface Calculator extends Remote {
+int add(int x, int y) throws RemoteException;
+int subtract(int x, int y) throws RemoteException;
+}
+
+    then new class CalculatorImpl
+
+import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
+public class CalculatorImpl extends UnicastRemoteObject implements
+Calculator {
+public CalculatorImpl() throws RemoteException {
+super();
+}
+public int add(int x, int y) throws RemoteException {
+return x + y;
+}
+public int subtract(int x, int y) throws RemoteException {
+
+return x - y;
+}
+}
+
+    then new class CalculatorServer
+
+import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
+public class CalculatorServer {
+public static void main(String[] args) {
+try {
+// Create an instance of the remote object
+Calculator calculator = new CalculatorImpl();
+// Get a reference to the RMI registry
+Registry registry = LocateRegistry.createRegistry(1099);
+// Bind the remote object to the registry
+registry.rebind("Calculator", calculator);
+System.out.println("CalculatorServer ready.");
+} catch (RemoteException e) {
+System.err.println("CalculatorServer exception:");
+}
+}
+}
+
+    then new class CalculatorClient
+
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
+
+public class CalculatorClient {
+
+    public static void main(String[] args) {
+
+        try {
+            // Get reference to the RMI registry running on localhost
+            Registry registry = LocateRegistry.getRegistry("localhost");
+
+            // Look up the remote Calculator object
+            Calculator calculator =
+                    (Calculator) registry.lookup("Calculator");
+
+            // Call remote add() method
+            int result = calculator.add(1, 2);
+            System.out.println("1 + 2 = " + result);
+
+            // Call remote subtract() method
+            result = calculator.subtract(5, 3);
+            System.out.println("5 - 3 = " + result);
+
+        } catch (NotBoundException | RemoteException e) {
+            System.err.println("CalculatorClient exception: " + e);
+        }
+    }
+}
+
+then run derver client
+    """,
+    "9JSP":r"""
+    java with ant
+    web app
+    server tomcat
+    change index.html to index.jsp using properties
+
+    code:
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page import="java.util.Date"%>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Current Date and Time</title>
+</head>
+<body>
+
+    <h1>Current Date and Time</h1>
+
+    <%
+        Date d = new Date();
+        out.println(d);
+    %>
+
+</body>
+</html>
+    
+    """,
+    "10IP":r"""
+    LOL
+    """,
+
 }
 
 st.sidebar.title("Shhhhhhhh!!")
