@@ -17,609 +17,703 @@ image_paths = ["2exp.jpg", "3exp.jpg", "PIC_page-0003.jpg", "PIC_page-0004.jpg",
 
 PIC_PROGRAMS = {
     
-    "EXP1KEYLISTENER": r"""
-steps :
-file new proj then java with maven then new app
-source package right click java class
-and put code
+    "EXP1": r"""Program:-1.
+#include <stdio.h>
+#include <string.h>
+#include <ctype.h>
 
-import java.awt.*;
-import java.awt.event.*;
-
-public class Ex1 extends Frame implements KeyListener {
-
-    Label l;
-    TextArea area;
-
-    Ex1() {
-
-        l = new Label();
-        l.setBounds(20, 50, 100, 20);
-
-        area = new TextArea();
-        area.setBounds(20, 80, 300, 300);
-
-        area.addKeyListener(this);
-
-        add(l);
-        add(area);
-
-        setSize(400, 400);
-        setLayout(null);
-        setVisible(true);
-    }
-
-    public void keyPressed(KeyEvent e) {
-        l.setText("Key Pressed");
-    }
-
-    public void keyReleased(KeyEvent e) {
-        l.setText("Key Released");
-    }
-
-    public void keyTyped(KeyEvent e) {
-        l.setText("Key Typed");
-    }
-
-    public static void main(String[] args) {
-        new Ex1();
-    }
-}
-""",
-    "EXP2MOUSECLICK ": r"""
-import java.awt.*;
-import java.awt.event.*;
-
-public class MouseDemo extends Frame implements MouseListener {
-
-    Label l;
-
-    MouseDemo() {
-
-        addMouseListener(this);
-
-        l = new Label();
-        l.setBounds(20, 50, 100, 20);
-        add(l);
-
-        setSize(300, 300);
-        setLayout(null);
-        setVisible(true);
-    }
-
-    public void mouseClicked(MouseEvent e) {
-        l.setText("Mouse Clicked");
-    }
-
-    public void mouseEntered(MouseEvent e) {
-        l.setText("Mouse Entered");
-    }
-
-    public void mouseExited(MouseEvent e) {
-        l.setText("Mouse Exited");
-    }
-
-    public void mousePressed(MouseEvent e) {
-        l.setText("Mouse Pressed");
-    }
-
-    public void mouseReleased(MouseEvent e) {
-        l.setText("Mouse Released");
-    }
-
-    public static void main(String[] args) {
-        new MouseDemo();
-    }
-}
-
-""",
-"3marks": r"""
-import javax.swing.JOptionPane;
-
-private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {                                         
-double maths, english, bio, total, avg;
-String grade;
-
-maths = Integer.parseInt(jTextField2.getText());
-english = Integer.parseInt(jTextField3.getText());
-bio = Integer.parseInt(jTextField4.getText());
-
-total = maths + english + bio;
-
-avg = total / 3;
-
-if(avg >= 85)
+int main()
 {
-    grade = "A";
+    char password[100];
+    int hasUpper, hasLower, hasDigit, hasSpecial;
+    int score;
+    while(1)
+    {
+        printf("\nEnter password (minimum 8 characters): ");
+        scanf("%s", password);
+        int length = strlen(password);
+        hasUpper = hasLower = hasDigit = hasSpecial = 0;
+        score = 0;
+        if(length >= 8)
+            score += 20;
+        for(int i = 0; i < length; i++)
+        {
+            if(isupper(password[i]))
+                hasUpper = 1;
+            else if(islower(password[i]))
+                hasLower = 1;
+            else if(isdigit(password[i]))
+                hasDigit = 1;
+            else
+                hasSpecial = 1;
+        }
+        if(hasUpper)
+            score += 20;
+        if(hasLower)
+            score += 20;
+        if(hasDigit)
+            score += 20;
+        if(hasSpecial)
+            score += 20;
+        printf("Password Strength: %d%%\n", score);
+        if(score == 100)
+        {
+            printf("Strong Password Accepted!\n");
+            break;
+        }
+        else
+        {
+            printf("Weak Password! Re-enter again.\n");
+        }
+    }
+    return 0;
 }
-else if(avg >= 75)
+
+
+
+
+
+
+
+
+
+
+
+2.Printed password:
+
+#include <stdio.h>
+#include <string.h>
+
+int main()
 {
-    grade = "B";
-}
-else if(avg >= 65)
-{
-    grade = "C";
-}
-else if(avg >= 45)
-{
-    grade = "S";
-}
-else
-{
-    grade = "F";
-}
+    char entered[50];
+    char newpass[50];
+    char password[50] = "admin123";   // Default password
+    int attempts = 0;
 
-JOptionPane.showMessageDialog(this,
-        "Total = " + total +
-        "\nAverage = " + avg +
-        "\nGrade = " + grade);        
-}
-""",
-    "4JDBCNETBEANS": r"""
+    printf("Default Password is: %s\n", password);
 
-mysql then code this
-then netbeans file new proj java with maven java app
-add JAR in lib
-right clock source package add java class whose code is :
+    while(attempts < 3)
+    {
+        printf("\nEnter Default Password: ");
+        scanf("%s", entered);
 
+        if(strcmp(entered, password) == 0)
+        {
+            printf("Login Successful!\n");
+            while(1)
+            {
+                printf("Enter New Password (min 8 characters): ");
+                scanf("%s", newpass);
 
-package exp4;
-
-import java.sql.Connection;
-import java.sql.Date;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.Statement;
-
-public class Exp4 {
-
-    public static void main(String args[]) {
-
-        try {
-
-            String mysqlUrl =
-            "jdbc:mysql://localhost:3306/test?useSSL=false&serverTimezone=UTC";
-
-            Connection con = DriverManager.getConnection(
-                    mysqlUrl,
-                    "root",
-                    "password"
-            );
-
-            System.out.println("Connection established......");
-
-            Statement stmt = con.createStatement();
-
-            PreparedStatement pstmt = con.prepareStatement(
-                    "INSERT INTO Players values (?, ?, ?, ?, ?, ?)"
-            );
-
-            pstmt.setInt(1, 9);
-            pstmt.setString(2, "R");
-            pstmt.setString(3, "Mc");
-            pstmt.setDate(4, new Date(513596800000L));
-            pstmt.setString(5, "Ku");
-            pstmt.setString(6, "India");
-
-            pstmt.executeUpdate();
-
-            String query = "Select * from Players";
-
-            ResultSet rs = stmt.executeQuery(query);
-
-            while (rs.next()) {
-
-                int id = rs.getInt("ID");
-                String first_name = rs.getString("First_Name");
-                String last_name = rs.getString("Last_Name");
-                Date dob = rs.getDate("Date_Of_Birth");
-                String place = rs.getString("Place_Of_Birth");
-                String country = rs.getString("Country");
-
-                System.out.print("Id: " + id + ", ");
-                System.out.print("First Name: " + first_name + ", ");
-                System.out.print("Last Name: " + last_name + ", ");
-                System.out.print("DOB: " + dob + ", ");
-                System.out.print("Place: " + place + ", ");
-                System.out.print("Country: " + country);
-
-                System.out.println();
+                if(strlen(newpass) >= 8)
+                {
+                    strcpy(password, newpass);
+                    printf("Password Changed Successfully!\n");
+                    break;
+                }
+                else
+                {
+                    printf("Password too short! Try again.\n");
+                }
             }
+            printf("\nLogin again with New Password\n");
+            printf("Enter Password: ");
+            scanf("%s", entered);
 
-            con.close();
-
-        } catch (Exception e) {
-            System.out.println(e);
-        }
-    }
-}
-
-    """,
-
-    
-
-    "4MYSQL": r"""
-CREATE DATABASE test;
-USE test;
-
-CREATE TABLE Players(
-    ID INT,
-    First_Name VARCHAR(255),
-    Last_Name VARCHAR(255),
-    Date_Of_Birth DATE,
-    Place_Of_Birth VARCHAR(255),
-    Country VARCHAR(255),
-    PRIMARY KEY (ID)
-);
-
-INSERT INTO Players VALUES
-(1, 'Shikhar', 'Dhawan', '1981-12-05', 'Delhi', 'India'),
-(2, 'Jonathan', 'Trott', '1981-04-22', 'CapeTown', 'SouthAfrica'),
-(3, 'Kumara', 'Sangakkara', '1977-10-27', 'Matale', 'Srilanka'),
-(4, 'Virat', 'Kohli', '1988-11-05', 'Delhi', 'India'),
-(5, 'Rohit', 'Sharma', '1987-04-30', 'Nagpur', 'India'),
-(6, 'Ravindra', 'Jadeja', '1988-12-06', 'Nagpur', 'India'),
-(7, 'James', 'Anderson', '1982-06-30', 'Burnley', 'England');
-
-SELECT * FROM Players;
-
-""",
-
-    "5Palindrome": r"""
-File → New Project
-→ Java with Ant
-→ Java Application
-→ Project Name: Exp5_RMI
-→ Finish
-
-Right Click Project Name
-→ New
-→ Java Interface
-→ Name: PalindromeChecker
-→ Finish
-
-import java.rmi.Remote;
-import java.rmi.RemoteException;
-public interface PalindromeChecker extends Remote {
-public boolean checkPalindrome(String s) throws RemoteException;
-}
-
-Right Click Project Name
-→ New
-→ Java Class
-→ Name: PalindromeServer
-→ Finish
-
-import java.rmi.registry.Registry;
-import java.rmi.registry.LocateRegistry;
-import java.rmi.RemoteException;
-import java.rmi.server.UnicastRemoteObject;
-public class PalindromeServer extends UnicastRemoteObject implements PalindromeChecker {
-public PalindromeServer() throws RemoteException{
-super();
-}
-@Override
-public boolean checkPalindrome(String s) throws RemoteException {
-
-// remove all non-alphanumeric characters and convert to lowercase
-String cleanString = s.replaceAll("[^a-zA-Z0-9]", "").toLowerCase();
-// check if the string is equal to its reverse
-String reversedString = new StringBuilder(cleanString).reverse().toString();
-return cleanString.equals(reversedString);
-}
-public static void main(String[] args) {
-try {
-// create and export the server object
-// bind the object to an RMI registry
-Registry registry = LocateRegistry.createRegistry(9999);
-registry.rebind("PalindromeChecker", new PalindromeServer());
-System.out.println("PalindromeChecker server ready.");
-}
-catch (RemoteException e) {
-System.out.println("exception"+e);
-}
-}
-}
-
-
-Right Click Project Name
-→ New
-→ Java Class
-→ Name: PalindromeClient
-→ Finish
-
-import java.rmi.NotBoundException;
-import java.rmi.RemoteException;
-import java.rmi.registry.LocateRegistry;
-import java.rmi.registry.Registry;
-
-public class PalindromeClient {
-
-    public static void main(String[] args) throws RemoteException {
-        PalindromeClient c = new PalindromeClient();
-        c.connectRemote();
-    }
-
-    public void connectRemote() throws RemoteException {
-        try {
-            // Connect to the RMI registry running on localhost at port 9999
-            Registry registry = LocateRegistry.getRegistry("localhost", 9999);
-
-            // Look up the remote object by name
-            PalindromeChecker checker =
-                    (PalindromeChecker) registry.lookup("PalindromeChecker");
-
-            // Test strings
-            String[] strings = {
-                "racecar",
-                "hello",
-                "A man a plan a canal Panama",
-                "12321"
-            };
-
-            // Call remote method and print result
-            for (String s : strings) {
-                System.out.println(
-                    s + " is " +
-                    (checker.checkPalindrome(s) ? "" : "not ") +
-                    "a palindrome."
-                );
+            if(strcmp(entered, password) == 0)
+            {
+                printf("Login Successful with New Password!\n");
             }
-
-        } catch (NotBoundException | RemoteException e) {
-            System.err.println(
-                "PalindromeChecker client exception: " + e.toString()
-            );
+            else
+            {
+                printf("Wrong New Password!\n");
+            }
+            return 0;
+        }
+        else
+        {
+            attempts++;
+            printf("Wrong Password! Attempts left: %d\n", 3 - attempts);
         }
     }
+    printf("Too many wrong attempts! Access Denied.\n");
+    return 0;
+}
+
+3.Printed password:
+#include <iostream>
+#include <string>
+using namespace std;
+int main()
+{
+    string password;
+    cout << "Enter password: ";
+    cin >> password;
+    cout << "Your password is: " << password << endl;
+    cout << "\nWarning: Printing passwords in plain text is insecure!\n";
+
+    return 0;
+}
+
+4.Transmitting password:
+
+#include <iostream>
+#include <string>
+using namespace std;
+
+int main()
+{
+    string password;
+    cout << "Enter password to transmit: ";
+    cin >> password;
+    string transmittedData = password;   // insecure transmission
+    cout << "Password transmitted: " << transmittedData << endl;
+    cout << "\nWarning: Transmitting passwords in plain text is insecure! Use encryption instead.\n";
+    return 0;
 }
 
 """,
-    "6IP": r"""
-    java with ant
-Right Click Project
-→ New
-→ Java Class
-→ Name: InetADRESS
-→ Finish
+    "EXP2 ": r"""#include <stdio.h>
+#include <ctype.h>
+#include <string.h>
 
-package InetADRESS;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
-import java.util.Scanner;
-
-public class InetADRESS {
-
-public static void main(String[] args) {
-Scanner sc=new Scanner(System.in);
-System.out.println("enter");
-String host=sc.next();
-try
+void encrypt(char text[], int key)
 {
-InetAddress ip=InetAddress.getByName(host);
-System.out.println("IP "+ip.getHostAddress());
-}
-catch(UnknownHostException e)
-{
-System.out.println(e);
-
-}
-}
-}""",
-    "7valid.java":r"""
-java with ant then java app
-right click on source package then servlet:
-
-import java.io.IOException;
-import java.io.PrintWriter;
-
-import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-@WebServlet("/valid")
-public class valid extends HttpServlet {
-
-    @Override
-    protected void doPost(HttpServletRequest request,
-                          HttpServletResponse response)
-            throws ServletException, IOException {
-
-        response.setContentType("text/html");
-
-        PrintWriter out = response.getWriter();
-
-        String uname = request.getParameter("uname");
-        String pass = request.getParameter("upass");
-
-        // Correct credentials
-        if (uname.equals("suu") && pass.equals("pass")) {
-
-            RequestDispatcher rd =
-                    request.getRequestDispatcher("/welcome.html");
-
-            rd.forward(request, response);
-
-        } else {
-
-            out.println("<h3>Invalid Username or Password</h3>");
-
-            RequestDispatcher rd =
-                    request.getRequestDispatcher("/index.html");
-
-            rd.include(request, response);
+    for (int i = 0; text[i] != '\0'; i++)
+    {
+        if (isupper(text[i]))
+        {
+            text[i] = ((text[i] - 'A' + key) % 26) + 'A';
+        }
+        else if (islower(text[i]))
+        {
+            text[i] = ((text[i] - 'a' + key) % 26) + 'a';
         }
     }
 }
-
-    """,
-    "7index.html":r"""<!DOCTYPE html>
-<html>
-<head>
-    <title>Login Form</title>
-</head>
-
-<body>
-
-<form action="valid" method="post">
-
-    Username:
-    <input type="text" name="uname">
-
-    <br><br>
-
-    Password:
-    <input type="password" name="upass">
-
-    <br><br>
-
-    <input type="submit" value="Submit">
-
-</form>
-
-</body>
-</html>
-    
-    """,
-    "7welcome.html":r"""
-    <!DOCTYPE html>
-<html>
-<head>
-    <title>Welcome</title>
-    <meta charset="UTF-8">
-</head>
-<body>
-
-<h1>Welcome to the page</h1>
-Login Confirmed!!
-
-</body>
-</html>
-    
-    """,
-    "8RMI-ADDITION":r"""
-    java with ant
-    java app
-    then 
-    project name interface: Calculator
-
-import java.rmi.Remote;
-import java.rmi.RemoteException;
-public interface Calculator extends Remote {
-int add(int x, int y) throws RemoteException;
-int subtract(int x, int y) throws RemoteException;
-}
-
-    then new class CalculatorImpl
-
-import java.rmi.RemoteException;
-import java.rmi.server.UnicastRemoteObject;
-public class CalculatorImpl extends UnicastRemoteObject implements
-Calculator {
-public CalculatorImpl() throws RemoteException {
-super();
-}
-public int add(int x, int y) throws RemoteException {
-return x + y;
-}
-public int subtract(int x, int y) throws RemoteException {
-
-return x - y;
-}
-}
-
-    then new class CalculatorServer
-
-import java.rmi.RemoteException;
-import java.rmi.registry.LocateRegistry;
-import java.rmi.registry.Registry;
-public class CalculatorServer {
-public static void main(String[] args) {
-try {
-// Create an instance of the remote object
-Calculator calculator = new CalculatorImpl();
-// Get a reference to the RMI registry
-Registry registry = LocateRegistry.createRegistry(1099);
-// Bind the remote object to the registry
-registry.rebind("Calculator", calculator);
-System.out.println("CalculatorServer ready.");
-} catch (RemoteException e) {
-System.err.println("CalculatorServer exception:");
-}
-}
-}
-
-    then new class CalculatorClient
-
-import java.rmi.NotBoundException;
-import java.rmi.RemoteException;
-import java.rmi.registry.LocateRegistry;
-import java.rmi.registry.Registry;
-
-public class CalculatorClient {
-
-    public static void main(String[] args) {
-
-        try {
-            // Get reference to the RMI registry running on localhost
-            Registry registry = LocateRegistry.getRegistry("localhost");
-
-            // Look up the remote Calculator object
-            Calculator calculator =
-                    (Calculator) registry.lookup("Calculator");
-
-            // Call remote add() method
-            int result = calculator.add(1, 2);
-            System.out.println("1 + 2 = " + result);
-
-            // Call remote subtract() method
-            result = calculator.subtract(5, 3);
-            System.out.println("5 - 3 = " + result);
-
-        } catch (NotBoundException | RemoteException e) {
-            System.err.println("CalculatorClient exception: " + e);
+void decrypt(char text[], int key)
+{
+    for (int i = 0; text[i] != '\0'; i++)
+    {
+        if (isupper(text[i]))
+        {
+            text[i] = ((text[i] - 'A' - key + 26) % 26) + 'A';
+        }
+        else if (islower(text[i]))
+        {
+            text[i] = ((text[i] - 'a' - key + 26) % 26) + 'a';
         }
     }
 }
+int main()
+{
+    char text[100];
+    int key;
+    char choice;
+    printf("Enter message: ");
+    fgets(text, sizeof(text), stdin);
+    printf("Enter key: ");
+    scanf("%d", &key);
 
-then run derver client
+    key = key % 26;   // Reduce key if greater than 26
+
+    printf("Type E to encrypt or D to decrypt: ");
+    scanf(" %c", &choice);
+    if (choice == 'E' || choice == 'e')
+    {
+        encrypt(text, key);
+        printf("Encrypted message: %s", text);
+    }
+    else if (choice == 'D' || choice == 'd')
+    {
+        decrypt(text, key);
+        printf("Decrypted message: %s", text);
+    }
+    else
+    {
+        printf("Invalid choice!\n");
+    }
+    return 0;
+}
+
+
+""",
+"EXP3": r"""Ceasar Cipher:
+#include <stdio.h>
+#include <ctype.h>
+#include <string.h>
+
+#define KEY 3
+int main()
+{
+    char plain[100];
+    char cipher[100];
+
+    printf("Enter Plain Text: ");
+    fgets(plain, sizeof(plain), stdin);
+
+    strcpy(cipher, plain);
+
+    for (int i = 0; cipher[i] != '\0'; i++)
+    {
+        if (isupper(cipher[i]))
+        {
+            cipher[i] = ((cipher[i] - 'A' + KEY) % 26) + 'A';
+        }
+        else if (islower(cipher[i]))
+        {
+            cipher[i] = ((cipher[i] - 'a' + KEY) % 26) + 'a';
+        }
+    }
+    printf("\nPlain Text : %s", plain);
+    printf("Cipher Text : %s", cipher);
+    return 0;
+}
+Substitution Cipher:
+#include <stdio.h>
+#include <ctype.h>
+#include <string.h>
+
+int main()
+{
+    char plain[100];
+    char cipher[100];
+    char key[] = "1Q!2W@3E#4R$5T%6Y7U&8I9O0P";
+
+    printf("Enter Plain Text: ");
+    fgets(plain, sizeof(plain), stdin);
+
+    strcpy(cipher, plain);
+
+    for (int i = 0; cipher[i] != '\0'; i++)
+    {
+        if (isupper(cipher[i]))
+        {
+            cipher[i] = key[cipher[i] - 'A'];
+        }
+        else if (islower(cipher[i]))
+        {
+            cipher[i] = tolower(key[cipher[i] - 'a']);
+        }
+    }
+    printf("\nPlain Text : %s", plain);
+    printf("Cipher Text : %s", cipher);
+    return 0;
+}
+Trasposition Cipher: 
+1.Reverse the plain text:
+#include <stdio.h>
+#include <string.h>
+
+int main()
+{
+    char plain[100];
+    char cipher[100];
+    int len;
+
+    printf("Enter Plain Text: ");
+    fgets(plain, sizeof(plain), stdin);
+
+    len = strlen(plain);
+
+    if (plain[len - 1] == '\n')
+    {
+        plain[len - 1] = '\0';
+        len--;
+    }
+
+    for (int i = 0; i < len; i++)
+    {
+        cipher[i] = plain[len - 1 - i];
+    }
+    cipher[len] = '\0';
+    printf("\nPlain Text : %s\n", plain);
+    printf("Cipher Text : %s\n", cipher);
+    return 0;
+}
+2.Group of 2 alphabets:
+#include <stdio.h>
+#include <string.h>
+int main()
+{
+    char plain[100];
+    char cipher[100];
+    int len, index = 0;
+    printf("Enter Plain Text: ");
+    fgets(plain, sizeof(plain), stdin);
+    len = strlen(plain);
+    if (plain[len - 1] == '\n')
+    {
+        plain[len - 1] = '\0';
+        len--;
+    }
+    for (int i = len - 2; i >= 0; i -= 2)
+    {
+        cipher[index++] = plain[i];
+        if (i + 1 < len)
+            cipher[index++] = plain[i + 1];
+    }
+    if (len % 2 != 0)
+    {
+        cipher[index++] = plain[0];
+    }
+    cipher[index] = '\0';
+    printf("\nPlain Text : %s\n", plain);
+    printf("Cipher Text : %s\n", cipher);
+    return 0;
+}
+3.Group of 3 alphabets:
+#include <stdio.h>
+#include <string.h>
+
+int main()
+{
+    char plain[100];
+    char cipher[100];
+    int len, index = 0;
+    printf("Enter Plain Text: ");
+    fgets(plain, sizeof(plain), stdin);
+    len = strlen(plain);
+    if (plain[len - 1] == '\n')
+    {
+        plain[len - 1] = '\0';
+        len--;
+    }
+    for (int i = len - 3; i >= 0; i -= 3)
+    {
+        for (int j = 0; j < 3 && (i + j) < len; j++)
+        {
+            cipher[index++] = plain[i + j];
+        }
+    }
+    int remainder = len % 3;
+    if (remainder != 0)
+    {
+        for (int i = 0; i < remainder; i++)
+        {
+            cipher[index++] = plain[i];
+        }
+    }
+    cipher[index] = '\0';
+    printf("\nPlain Text : %s\n", plain);
+    printf("Cipher Text : %s\n", cipher);
+
+    return 0;
+}
+
+""",
+    "EXP5": r"""
+Exp-05
+Code 1 
+#include <iostream>
+#include <string>
+using namespace std;
+
+string encrypt(string text, string key) {
+    string output = text;
+    for(int i = 0; i < text.length(); i++)
+        output[i] = text[i] ^ key[i % key.length()];
+    return output;
+}
+
+int main() {
+    cout << "Message Encryption Using DES Algorithm\n";
+    cout << "-------\n";
+
+    string message = "NETWORK SECURITY";
+    string key = "mydeskey";
+
+    cout << "Message [Byte Format] : [B@" << (void*)message.c_str() << endl;
+    cout << "Message : " << message << endl;
+
+    string encrypted = encrypt(message, key);
+    cout << "Encrypted Message: [B@" << (void*)encrypted.c_str() << endl;
+
+    string decrypted = encrypt(encrypted, key);
+    cout << "Decrypted Message: " << decrypted << endl;
+
+    return 0;
+}
+Code 02
+
+ #include <iostream>
+using namespace std;
+
+int gcd(int e, int z) {
+    if(e == 0) return z;
+    else return gcd(z % e, e);
+}
+
+long long modPow(long long base, long long exp, long long mod) {
+    long long result = 1;
+    base = base % mod;
+    while(exp > 0) {
+        if(exp % 2 == 1) result = (result * base) % mod;
+        exp = exp / 2;
+        base = (base * base) % mod;
+    }
+    return result;
+}
+
+int main() {
+    int p = 11, q = 13, n, z, d = 0, e, i;
+    int msg = 12;
+
+    n = p * q;
+    z = (p - 1) * (q - 1);
+    cout << "the value of z = " << z << endl;
+
+    for(e = 2; e < z; e++)
+        if(gcd(e, z) == 1) { break; }
+
+    cout << "the value of e = " << e << endl;
+
+    for(i = 1; d == 0; i++)
+        if((i * z + 1) % e == 0) d = (i * z + 1) / e;
+
+    cout << "the value of d = " << d << endl;
+
+    long long encrypted = modPow(msg, e, n);
+    long long decrypted = modPow(encrypted, d, n);
+
+    cout << "Original:  " << msg << endl;
+    cout << "Encrypted: " << encrypted << endl;
+    cout << "Decrypted: " << decrypted << endl;
+
+    return 0;
+}
+
+
+
+
     """,
-    "9JSP":r"""
-    java with ant
-    web app
-    server tomcat
-    change index.html to index.jsp using properties
 
-    code:
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@page import="java.util.Date"%>
-
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <title>Current Date and Time</title>
-</head>
-<body>
-
-    <h1>Current Date and Time</h1>
-
-    <%
-        Date d = new Date();
-        out.println(d);
-    %>
-
-</body>
-</html>
     
-    """,
-    "10IP":r"""
-    LOL
-    """,
+
+    "exp6": r"""Exp06
+#include <iostream>
+#include <string>
+using namespace std;
+
+int main() {
+    cout << "Message Encryption Using DES Algorithm (Simulation)\n\n";
+
+    string text = "Samiksha Gumphekar";
+    cout << "Message: " << text << endl;
+
+    int key = 5;
+
+    string encrypted = text;
+    for(int i = 0; i < text.length(); i++)
+        encrypted[i] = text[i] ^ key;
+
+    cout << "Encrypted Message: ";
+    for(char c : encrypted)
+        cout << c;
+    cout << endl;
+
+    string decrypted = encrypted;
+    for(int i = 0; i < encrypted.length(); i++)
+        decrypted[i] = encrypted[i] ^ key;
+
+    cout << "Decrypted Message: " << decrypted << endl;
+
+    return 0;
+}
+
+""",
+
+    "exp7": r"""#include <iostream>
+#include <cstdio>
+#include <cstring>
+
+using namespace std;
+
+typedef unsigned char uint8;
+
+#define Nb 4
+#define Nk 8
+#define Nr 14
+
+static const uint8 sbox[256] = {
+0x63,0x7c,0x77,0x7b,0xf2,0x6b,0x6f,0xc5,0x30,0x01,0x67,0x2b,0xfe,0xd7,0xab,0x76,
+0xca,0x82,0xc9,0x7d,0xfa,0x59,0x47,0xf0,0xad,0xd4,0xa2,0xaf,0x9c,0xa4,0x72,0xc0,
+0xb7,0xfd,0x93,0x26,0x36,0x3f,0xf7,0xcc,0x34,0xa5,0xe5,0xf1,0x71,0xd8,0x31,0x15,
+0x04,0xc7,0x23,0xc3,0x18,0x96,0x05,0x9a,0x07,0x12,0x80,0xe2,0xeb,0x27,0xb2,0x75,
+0x09,0x83,0x2c,0x1a,0x1b,0x6e,0x5a,0xa0,0x52,0x3b,0xd6,0xb3,0x29,0xe3,0x2f,0x84,
+0x53,0xd1,0x00,0xed,0x20,0xfc,0xb1,0x5b,0x6a,0xcb,0xbe,0x39,0x4a,0x4c,0x58,0xcf,
+0xd0,0xef,0xaa,0xfb,0x43,0x4d,0x33,0x85,0x45,0xf9,0x02,0x7f,0x50,0x3c,0x9f,0xa8,
+0x51,0xa3,0x40,0x8f,0x92,0x9d,0x38,0xf5,0xbc,0xb6,0xda,0x21,0x10,0xff,0xf3,0xd2,
+0xcd,0x0c,0x13,0xec,0x5f,0x97,0x44,0x17,0xc4,0xa7,0x7e,0x3d,0x64,0x5d,0x19,0x73,
+0x60,0x81,0x4f,0xdc,0x22,0x2a,0x90,0x88,0x46,0xee,0xb8,0x14,0xde,0x5e,0x0b,0xdb,
+0xe0,0x32,0x3a,0x0a,0x49,0x06,0x24,0x5c,0xc2,0xd3,0xac,0x62,0x91,0x95,0xe4,0x79,
+0xe7,0xc8,0x37,0x6d,0x8d,0xd5,0x4e,0xa9,0x6c,0x56,0xf4,0xea,0x65,0x7a,0xae,0x08,
+0xba,0x78,0x25,0x2e,0x1c,0xa6,0xb4,0xc6,0xe8,0xdd,0x74,0x1f,0x4b,0xbd,0x8b,0x8a,
+0x70,0x3e,0xb5,0x66,0x48,0x03,0xf6,0x0e,0x61,0x35,0x57,0xb9,0x86,0xc1,0x1d,0x9e,
+0xe1,0xf8,0x98,0x11,0x69,0xd9,0x8e,0x94,0x9b,0x1e,0x87,0xe9,0xce,0x55,0x28,0xdf,
+0x8c,0xa1,0x89,0x0d,0xbf,0xe6,0x42,0x68,0x41,0x99,0x2d,0x0f,0xb0,0x54,0xbb,0x16
+};
+
+uint8 Rcon[15] = {
+    0x00,0x01,0x02,0x04,0x08,0x10,0x20,0x40,0x80,0x1B,0x36
+};
+
+uint8 xtime(uint8 x)
+{
+    return (x << 1) ^ ((x >> 7) * 0x1b);
+}
+
+void SubBytes(uint8 state[4][4])
+{
+    for(int i = 0; i < 4; i++)
+        for(int j = 0; j < 4; j++)
+            state[i][j] = sbox[state[i][j]];
+}
+
+void ShiftRows(uint8 state[4][4])
+{
+    uint8 temp;
+
+    temp = state[1][0];
+    state[1][0] = state[1][1];
+    state[1][1] = state[1][2];
+    state[1][2] = state[1][3];
+    state[1][3] = temp;
+
+    uint8 temp1 = state[2][0];
+    uint8 temp2 = state[2][1];
+    state[2][0] = state[2][2];
+    state[2][1] = state[2][3];
+    state[2][2] = temp1;
+    state[2][3] = temp2;
+
+    temp = state[3][3];
+    state[3][3] = state[3][2];
+    state[3][2] = state[3][1];
+    state[3][1] = state[3][0];
+    state[3][0] = temp;
+}
+
+void MixColumns(uint8 state[4][4])
+{
+    for(int i = 0; i < 4; i++)
+    {
+        uint8 a = state[0][i];
+        uint8 b = state[1][i];
+        uint8 c = state[2][i];
+        uint8 d = state[3][i];
+
+        state[0][i] = xtime(a) ^ xtime(b) ^ b ^ c ^ d;
+        state[1][i] = a ^ xtime(b) ^ xtime(c) ^ c ^ d;
+        state[2][i] = a ^ b ^ xtime(c) ^ xtime(d) ^ d;
+        state[3][i] = xtime(a) ^ a ^ b ^ c ^ xtime(d);
+    }
+}
+
+void AddRoundKey(uint8 state[4][4], uint8* roundKey)
+{
+    for(int i = 0; i < 4; i++)
+        for(int j = 0; j < 4; j++)
+            state[j][i] ^= roundKey[i * 4 + j];
+}
+
+void KeyExpansion(uint8* key, uint8* roundKey)
+{
+    memcpy(roundKey, key, 32);
+
+    uint8 temp[4];
+    int i = 8;
+
+    while(i < 4 * (Nr + 1))
+    {
+        for(int j = 0; j < 4; j++)
+            temp[j] = roundKey[(i - 1) * 4 + j];
+
+        if(i % Nk == 0)
+        {
+            uint8 k = temp[0];
+
+            temp[0] = sbox[temp[1]] ^ Rcon[i / Nk];
+            temp[1] = sbox[temp[2]];
+            temp[2] = sbox[temp[3]];
+            temp[3] = sbox[k];
+        }
+        else if(i % Nk == 4)
+        {
+            for(int j = 0; j < 4; j++)
+                temp[j] = sbox[temp[j]];
+        }
+
+        for(int j = 0; j < 4; j++)
+            roundKey[i * 4 + j] = roundKey[(i - Nk) * 4 + j] ^ temp[j];
+
+        i++;
+    }
+}
+
+void AES256Encrypt(uint8* input, uint8* key, uint8* output)
+{
+    uint8 state[4][4];
+    uint8 roundKey[240];
+
+    KeyExpansion(key, roundKey);
+
+    for(int i = 0; i < 4; i++)
+        for(int j = 0; j < 4; j++)
+            state[j][i] = input[i * 4 + j];
+
+    AddRoundKey(state, roundKey);
+
+    for(int round = 1; round < Nr; round++)
+    {
+        SubBytes(state);
+        ShiftRows(state);
+        MixColumns(state);
+        AddRoundKey(state, roundKey + round * 16);
+    }
+
+    SubBytes(state);
+    ShiftRows(state);
+    AddRoundKey(state, roundKey + Nr * 16);
+
+    for(int i = 0; i < 4; i++)
+        for(int j = 0; j < 4; j++)
+            output[i * 4 + j] = state[j][i];
+}
+
+int main()
+{
+    uint8 key[32] = {0};
+    uint8 plaintext[16] = {0};
+    uint8 ciphertext[16];
+
+    AES256Encrypt(plaintext, key, ciphertext);
+
+    cout << "Cipher Text: ";
+
+    for(int i = 0; i < 16; i++)
+        printf("%02x ", ciphertext[i]);
+
+    return 0;
+}
+
+
+""",
+    "exp8": r"""Exp08
+Hashmap only runs in online complier
+Python code 
+
+import hashlib
+
+def get_md5(input_text):
+    md5_hash = hashlib.md5()
+    md5_hash.update(input_text.encode())
+    return md5_hash.hexdigest()
+
+s = "samikshagumphekar"
+print("Your HashCode Generated by MD5 is:", get_md5(s))
+"""
 
 }
 
